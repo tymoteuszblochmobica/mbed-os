@@ -1,4 +1,4 @@
- /* mbed Microcontroller Library
+/* mbed Microcontroller Library
  * Copyright (c) 2016 ARM Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,7 @@
 #include "mbed_interface.h"
 #include "netsocket/nsapi_types.h"
 #include "cellular_driver_L3IP.h"
+
 
 Cellular_driver_L3IP::Cellular_driver_L3IP()
 {

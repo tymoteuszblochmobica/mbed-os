@@ -1,3 +1,4 @@
+
   /* mbed Microcontroller Library
  * Copyright (c) 2016 ARM Limited
  *
@@ -13,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 
 #ifndef CELLULAR_DRIVER_L3IP_H_
 #define CELLULAR_DRIVER_L3IP_H_
