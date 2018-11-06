@@ -149,6 +149,20 @@ public:
     static err_t l3ip_if_init(struct netif *netif);
 #endif
 
+#if LWIP_L3IP
+    static err_t l3ip_low_level_output(struct netif *netif, struct pbuf *p, const ip4_addr_t *ipaddr);
+    void l3ip_input(net_stack_mem_buf_t *buf);
+    void l3ip_state_change(bool up);
+#if LWIP_IGMP
+    static err_t l3ip_multicast_ipv4_filter(struct netif *netif, const ip4_addr_t *group, enum netif_mac_filter_action action);
+#endif
+#if LWIP_IPV6_MLD
+    static err_t l3ip_multicast_ipv6_filter(struct netif *netif, const ip6_addr_t *group, enum netif_mac_filter_action action);
+#endif
+
+    static err_t l3ip_if_init(struct netif *netif);
+#endif
+
         union {
 #if LWIP_ETHERNET
             EMAC *emac; /**< HW specific emac implementation */
