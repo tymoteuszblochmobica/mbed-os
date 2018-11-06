@@ -23,11 +23,11 @@
 // This class requires Mbed TLS SSL/TLS client code
 #if defined(MBEDTLS_SSL_CLI_C)
 
-nsapi_error_t TLSSocket::connect(const char *host, uint16_t port)
+nsapi_error_t TLSSocket::connect(const char *host, uint16_t port, const char *interface_name)
 {
     set_hostname(host);
 
-    nsapi_error_t ret = tcp_socket.connect(host, port);
+    nsapi_error_t ret = tcp_socket.connect(host, port,interface_name);
     if (ret) {
         return ret;
     }

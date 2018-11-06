@@ -58,7 +58,7 @@ nsapi_size_or_error_t nsapi_dns_query_multiple(nsapi_stack_t *stack, const char 
  *  @param addr     Destination for the host address
  *  @return         0 on success, negative error code on failure
  */
-nsapi_error_t nsapi_dns_add_server(nsapi_addr_t addr);
+nsapi_error_t nsapi_dns_add_server(nsapi_addr_t addr, const char *interface_name);
 
 
 #else
@@ -203,16 +203,16 @@ void nsapi_dns_call_in_set(call_in_callback_cb_t callback);
  *  @param addr     Destination for the host address
  *  @return         0 on success, negative error code on failure
  */
-extern "C" nsapi_error_t nsapi_dns_add_server(nsapi_addr_t addr);
+extern "C" nsapi_error_t nsapi_dns_add_server(nsapi_addr_t addr, const char *interface_name);
 
 /** Add a domain name server to list of servers to query
  *
  *  @param addr     Destination for the host address
  *  @return         0 on success, negative error code on failure
  */
-static inline nsapi_error_t nsapi_dns_add_server(const SocketAddress &address)
+static inline nsapi_error_t nsapi_dns_add_server(const SocketAddress &address, const char *interface_name)
 {
-    return nsapi_dns_add_server(address.get_addr());
+    return nsapi_dns_add_server(address.get_addr(), interface_name);
 }
 
 /** Add a domain name server to list of servers to query
@@ -220,9 +220,9 @@ static inline nsapi_error_t nsapi_dns_add_server(const SocketAddress &address)
  *  @param addr     Destination for the host address
  *  @return         0 on success, negative error code on failure
  */
-static inline nsapi_error_t nsapi_dns_add_server(const char *address)
+static inline nsapi_error_t nsapi_dns_add_server(const char *address, const char *interface_name)
 {
-    return nsapi_dns_add_server(SocketAddress(address));
+    return nsapi_dns_add_server(SocketAddress(address), interface_name);
 }
 
 

@@ -100,10 +100,10 @@ nsapi_error_t TCPSocket::connect(const SocketAddress &address)
     return ret;
 }
 
-nsapi_error_t TCPSocket::connect(const char *host, uint16_t port)
+nsapi_error_t TCPSocket::connect(const char *host, uint16_t port, const char *interface_name)
 {
     SocketAddress address;
-    nsapi_error_t err = _stack->gethostbyname(host, &address);
+    nsapi_error_t err = _stack->gethostbyname(host, &address, interface_name);
     if (err) {
         return NSAPI_ERROR_DNS_FAILURE;
     }

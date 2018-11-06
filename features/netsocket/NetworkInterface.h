@@ -96,7 +96,7 @@ public:
      *  @return         Null-terminated representation of the local IP address
      *                  or null if no IP address has been received.
      */
-    virtual const char *get_ip_address();
+    virtual const char *get_ip_address(const char *interface_name);
 
     /** Get the local network mask.
      *
@@ -160,7 +160,7 @@ public:
      *  @return         NSAPI_ERROR_OK on success, negative error code on failure.
      */
     virtual nsapi_error_t gethostbyname(const char *host,
-                                        SocketAddress *address, nsapi_version_t version = NSAPI_UNSPEC);
+                                        SocketAddress *address, const char *interface_name, nsapi_version_t version = NSAPI_UNSPEC);
 
     /** Hostname translation callback (for use with gethostbyname_async()).
      *
@@ -199,7 +199,7 @@ public:
      *                  a positive unique id that represents the hostname translation operation
      *                  and can be passed to cancel.
      */
-    virtual nsapi_value_or_error_t gethostbyname_async(const char *host, hostbyname_cb_t callback,
+    virtual nsapi_value_or_error_t gethostbyname_async(const char *host, hostbyname_cb_t callback, const char *interface_name,
                                                        nsapi_version_t version = NSAPI_UNSPEC);
 
     /** Cancel asynchronous hostname translation.
@@ -217,7 +217,7 @@ public:
      *  @param address  Address for the dns host.
      *  @return         NSAPI_ERROR_OK on success, negative error code on failure.
      */
-    virtual nsapi_error_t add_dns_server(const SocketAddress &address);
+    virtual nsapi_error_t add_dns_server(const SocketAddress &address, const char *interface_name);
 
     /** Register callback for status reporting.
      *

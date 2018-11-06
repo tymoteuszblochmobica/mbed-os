@@ -82,7 +82,7 @@
 
 #define SYS_LIGHTWEIGHT_PROT        1
 
-#define LWIP_RAW                    0
+#define LWIP_RAW                    1
 
 #define TCPIP_MBOX_SIZE             8
 #define DEFAULT_TCP_RECVMBOX_SIZE   8
