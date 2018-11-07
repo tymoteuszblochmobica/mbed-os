@@ -142,7 +142,6 @@ err_t LWIP::Interface::l3ip_if_init(struct netif *netif)
 
 #if LWIP_IPV4
     netif->output = &LWIP::Interface::l3ip_output;
-
 #if LWIP_IGMP
     netif->igmp_mac_filter = &LWIP::Interface::l3ip_multicast_ipv4_filter;
     netif->flags |= NETIF_FLAG_IGMP;
