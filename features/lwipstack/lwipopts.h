@@ -36,7 +36,7 @@
 #if MBED_CONF_LWIP_IPV6_ENABLED
 #define LWIP_IPV6                   1
 #else
-#define LWIP_IPV6                   1
+#define LWIP_IPV6                   0
 #endif
 #if !MBED_CONF_LWIP_IPV4_ENABLED && !MBED_CONF_LWIP_IPV6_ENABLED
 #error "Either IPv4 or IPv6 must be enabled."
