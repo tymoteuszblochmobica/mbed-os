@@ -26,7 +26,7 @@
 
 #if LWIP_L3IP
 
-err_t LWIP::Interface::l3ip_low_level_output(struct netif *netif, struct pbuf *p, const ip4_addr_t *ipaddr)
+err_t LWIP::Interface::l3ip_output(struct netif *netif, struct pbuf *p, const ip4_addr_t *ipaddr)
 {
     /* Increase reference counter since lwip stores handle to pbuf and frees
        it after output */
@@ -41,7 +41,7 @@ void LWIP::Interface::l3ip_input(net_stack_mem_buf_t *buf)
 {
     struct pbuf *p = static_cast<struct pbuf *>(buf);
 
-    /* pass all packets to ethernet_input, which decides what packets it supports */
+    /* pass all packets to IP stack input */
     if (netif.input(p, &netif) != ERR_OK) {
         LWIP_DEBUGF(NETIF_DEBUG, ("Emac LWIP: IP input error\n"));
 
@@ -138,10 +138,10 @@ err_t LWIP::Interface::l3ip_if_init(struct netif *netif)
     }
 
     netif->mtu = mbed_if->l3ip->get_mtu_size();
-    mbed_if->l3ip->get_ifname(netif->name, 2);
+    mbed_if->l3ip->get_ifname(netif->name, NSAPI_INTERFACE_NAME_SIZE);
 
 #if LWIP_IPV4
-    netif->output = &LWIP::Interface::l3ip_low_level_output;
+    netif->output = &LWIP::Interface::l3ip_output;
 #if LWIP_IGMP
     netif->igmp_mac_filter = &LWIP::Interface::l3ip_multicast_ipv4_filter;
     netif->flags |= NETIF_FLAG_IGMP;
