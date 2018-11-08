@@ -55,9 +55,20 @@ nsapi_error_t NetworkInterface::set_dhcp(bool dhcp)
 }
 
 // DNS operations go through the underlying stack by default
+nsapi_error_t NetworkInterface::gethostbyname(const char *name, SocketAddress *address, nsapi_version_t version)
+{
+    return get_stack()->gethostbyname(name, address, version);
+}
+
 nsapi_error_t NetworkInterface::gethostbyname(const char *name, SocketAddress *address, const char *interface_name, nsapi_version_t version)
 {
     return get_stack()->gethostbyname(name, address, interface_name, version);
+}
+
+
+nsapi_value_or_error_t NetworkInterface::gethostbyname_async(const char *host, hostbyname_cb_t callback, nsapi_version_t version)
+{
+    return get_stack()->gethostbyname_async(host, callback, version);
 }
 
 nsapi_value_or_error_t NetworkInterface::gethostbyname_async(const char *host, hostbyname_cb_t callback, const char *interface_name, nsapi_version_t version)

@@ -68,7 +68,7 @@ public:
      *                  code on failure.
      */
     virtual nsapi_size_or_error_t sendto(const char *host, uint16_t port,
-                                         const void *data, nsapi_size_t size, const char *interface_name);
+                                         const void *data, nsapi_size_t size);
 
     /** Send data to the specified address.
      *

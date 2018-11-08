@@ -579,11 +579,27 @@ nsapi_error_t nsapi_dns_query(NetworkStack *stack, const char *host,
     return (nsapi_error_t)((result > 0) ? 0 : result);
 }
 
+nsapi_error_t nsapi_dns_query(NetworkStack *stack, const char *host,
+                              SocketAddress *address, const char *interface_name, nsapi_version_t version)
+{
+    nsapi_addr_t addr;
+    nsapi_size_or_error_t result = nsapi_dns_query_multiple(stack, host, &addr, 1, version);//to be finished for interface name
+    address->set_addr(addr);
+    return (nsapi_error_t)((result > 0) ? 0 : result);
+}
+
 nsapi_value_or_error_t nsapi_dns_query_async(NetworkStack *stack, const char *host,
                                              NetworkStack::hostbyname_cb_t callback, call_in_callback_cb_t call_in_cb,
                                              nsapi_version_t version)
 {
     return nsapi_dns_query_multiple_async(stack, host, callback, 0, call_in_cb, version);
+}
+
+nsapi_value_or_error_t nsapi_dns_query_async(NetworkStack *stack, const char *host,
+                                             NetworkStack::hostbyname_cb_t callback, call_in_callback_cb_t call_in_cb,
+											 const char *interface_name, nsapi_version_t version)
+{
+    return nsapi_dns_query_multiple_async(stack, host, callback, 0, call_in_cb, version);//to be finished for interface name
 }
 
 void nsapi_dns_call_in_set(call_in_callback_cb_t callback)

@@ -72,7 +72,7 @@ public:
      *  @param port     Port of the remote host
      *  @return         0 on success, negative error code on failure
      */
-    nsapi_error_t connect(const char *host, uint16_t port, const char *interface_name);
+    nsapi_error_t connect(const char *host, uint16_t port);
 
     /** Connects TCP socket to a remote host
      *
