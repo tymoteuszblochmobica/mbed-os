@@ -173,7 +173,7 @@ public:
      *  @param host     Hostname to resolve.
      *  @param address  Pointer to a SocketAddress to store the result.
      *  @param version  IP version of address to resolve, NSAPI_UNSPEC indicates
-     *  @param interface_name  Network interface_name
+     *  @param interface_name  Network interface name
      *                  version is chosen by the stack (defaults to NSAPI_UNSPEC).
      *  @return         NSAPI_ERROR_OK on success, negative error code on failure.
      */
