@@ -118,7 +118,7 @@ nsapi_error_t nsapi_dns_query_async(NetworkStack *stack, const char *host,
  */
 nsapi_error_t nsapi_dns_query_async(NetworkStack *stack, const char *host,
                                     NetworkStack::hostbyname_cb_t callback, call_in_callback_cb_t call_in_cb,
-									const char *interface_name, nsapi_version_t version = NSAPI_IPv4);
+                                    const char *interface_name, nsapi_version_t version = NSAPI_IPv4);
 
 /** Query a domain name server for an IP address of a given hostname (asynchronous)
  *

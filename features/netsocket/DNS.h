@@ -48,7 +48,7 @@ public:
      *  @param host     Hostname to resolve.
      *  @param address  Pointer to a SocketAddress to store the result.
      *  @param version  IP version of address to resolve, NSAPI_UNSPEC indicates
-     *  @param interface_name  Network interface_name
+     *  @param interface_name  Network interface name
      *                  version is chosen by the stack (defaults to NSAPI_UNSPEC).
      *  @return         NSAPI_ERROR_OK on success, negative error code on failure.
      */
@@ -109,7 +109,7 @@ public:
      *
      *  @param host     Hostname to resolve.
      *  @param callback Callback that is called to return the result.
-     *  @param interface_name  Network interface_name
+     *  @param interface_name  Network interface name
      *  @param version  IP version of address to resolve. NSAPI_UNSPEC indicates that the
      *                  version is chosen by the stack (defaults to NSAPI_UNSPEC).
      *  @return         NSAPI_ERROR_OK on immediate success,
@@ -132,6 +132,7 @@ public:
     /** Add a domain name server to list of servers to query.
      *
      *  @param address  DNS server host address.
+     *  @param interface_name  Network interface name
      *  @return         NSAPI_ERROR_OK on success, negative error code on failure.
      */
     virtual nsapi_error_t add_dns_server(const SocketAddress &address, const char *interface_name) = 0;

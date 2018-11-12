@@ -40,6 +40,7 @@ public:
 
     /** Get the local IP address
      *
+     *  @param 			interface_name  Network interface_name
      *  @return         Null-terminated representation of the local IP address
      *                  or null if not yet connected
      */
@@ -136,7 +137,7 @@ public:
      *
      *  @param host     Hostname to resolve
      *  @param callback Callback that is called for result
-     *  @param interface_name  Network interface_name
+     *  @param interface_name  Network interface name
      *  @param version  IP version of address to resolve, NSAPI_UNSPEC indicates
      *                  version is chosen by the stack (defaults to NSAPI_UNSPEC)
      *  @return         0 on immediate success,
@@ -159,9 +160,10 @@ public:
     /** Add a domain name server to list of servers to query
      *
      *  @param address  Destination for the host address
+     *  @param interface_name  Network interface name
      *  @return         NSAPI_ERROR_OK on success, negative error code on failure
      */
-    virtual nsapi_error_t add_dns_server(const SocketAddress &address, const char *interface_name);
+    virtual nsapi_error_t add_dns_server(const SocketAddress &address, const char *interface_name = NULL);
 
     /** Get a domain name server from a list of servers to query
      *
@@ -170,9 +172,10 @@ public:
      *
      *  @param index    Index of the DNS server, starts from zero
      *  @param address  Destination for the host address
+     *  @param interface_name  Network interface name
      *  @return         NSAPI_ERROR_OK on success, negative error code on failure
      */
-    virtual nsapi_error_t get_dns_server(int index, SocketAddress *address, const char *interface_name);
+    virtual nsapi_error_t get_dns_server(int index, SocketAddress *address, const char *interface_name = NULL);
 
     /*  Set stack options
      *

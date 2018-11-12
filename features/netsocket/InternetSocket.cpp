@@ -172,8 +172,8 @@ nsapi_error_t InternetSocket::setsockopt(int level, int optname, const void *opt
         ret = NSAPI_ERROR_NO_SOCKET;
     } else {
         ret = _stack->setsockopt(_socket, level, optname, optval, optlen);
-        if(optname == NSAPI_BIND_TO_DEVICE) {
-        	strncpy(_interface_name,static_cast<const char*>(optval),3);
+        if(optname == NSAPI_BIND_TO_DEVICE && level == NSAPI_SOCKET ) {
+        	strncpy(_interface_name,static_cast<const char*>(optval),optlen);
         }
     }
 

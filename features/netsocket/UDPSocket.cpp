@@ -43,8 +43,8 @@ nsapi_size_or_error_t UDPSocket::sendto(const char *host, uint16_t port, const v
     nsapi_size_or_error_t err;
 
     if (strcmp(_interface_name, "")) {
-       	err = _stack->gethostbyname(host, &address);
-       } else {
+        err = _stack->gethostbyname(host, &address);
+    } else {
        	err = _stack->gethostbyname(host, &address, _interface_name);
     }
 

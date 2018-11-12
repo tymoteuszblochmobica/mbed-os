@@ -511,7 +511,7 @@ nsapi_error_t LWIP::setsockopt(nsapi_socket_t handle, int level, int optname, co
 
     switch (optname) {
     	case NSAPI_BIND_TO_DEVICE:
-             if (optlen != sizeof(char[2])) {
+             if (optlen > NSAPI_INTERFACE_NAME_MAX_SIZE) {
                  return NSAPI_ERROR_UNSUPPORTED;
              }
 
