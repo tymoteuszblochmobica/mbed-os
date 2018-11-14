@@ -78,7 +78,7 @@ public:
     /** Start the interface
      *  @return             0 on success, negative on failure
      */
-    virtual nsapi_error_t connect();
+    virtual nsapi_error_t connect(bool is_default = true);
 
     /** Stop the interface
      *  @return             0 on success, negative on failure
@@ -101,7 +101,7 @@ public:
      *  @return         Null-terminated representation of the local IP address
      *                  or null if no IP address has been received
      */
-    virtual const char *get_ip_address();
+    virtual const char *get_ip_address(const char *interface_name);
 
     /** Get the local network mask
      *
@@ -116,6 +116,13 @@ public:
      *                  or null if no network mask has been received
      */
     virtual const char *get_gateway();
+
+    /** Get the network interface name
+      *
+      *  @return         Null-terminated representation of the network interface name
+      *                  or null if  interface not exists
+      */
+    virtual const char *get_interface_name(char *interface_name);
 
     /** Register callback for status reporting
      *

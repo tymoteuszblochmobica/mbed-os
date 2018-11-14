@@ -23,7 +23,7 @@
 #include "ip6string.h"
 #include "mbed_error.h"
 
-char *Nanostack::Interface::get_ip_address(char *buf, nsapi_size_t buflen)
+char *Nanostack::Interface::get_ip_address(char *buf, nsapi_size_t buflen, const char *interface_name)
 {
     NanostackLockGuard lock;
     uint8_t binary_ipv6[16];
@@ -173,7 +173,7 @@ Nanostack *InterfaceNanostack::get_stack()
 
 const char *InterfaceNanostack::get_ip_address()
 {
-    if (_interface->get_ip_address(ip_addr_str, sizeof(ip_addr_str))) {
+    if (_interface->get_ip_address(ip_addr_str, sizeof(ip_addr_str),NULL)) {
         return ip_addr_str;
     }
     return NULL;

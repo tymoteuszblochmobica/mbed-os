@@ -75,7 +75,7 @@ public:
      *
      *  @return         NSAPI_ERROR_OK on success, or negative error code on failure.
      */
-    virtual nsapi_error_t connect() = 0;
+    virtual nsapi_error_t connect(bool is_default = false) = 0;
 
     /** Stop the interface.
      *

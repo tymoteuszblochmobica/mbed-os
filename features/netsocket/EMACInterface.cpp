@@ -50,10 +50,10 @@ nsapi_error_t EMACInterface::set_dhcp(bool dhcp)
     return NSAPI_ERROR_OK;
 }
 
-nsapi_error_t EMACInterface::connect()
+nsapi_error_t EMACInterface::connect(bool is_default)
 {
     if (!_interface) {
-        nsapi_error_t err = _stack.add_ethernet_interface(_emac, true, &_interface);
+        nsapi_error_t err = _stack.add_ethernet_interface(_emac, is_default, &_interface);
         if (err != NSAPI_ERROR_OK) {
             _interface = NULL;
             return err;
@@ -85,9 +85,9 @@ const char *EMACInterface::get_mac_address()
     return NULL;
 }
 
-const char *EMACInterface::get_ip_address()
+const char *EMACInterface::get_ip_address(const char *interface_name)
 {
-    if (_interface && _interface->get_ip_address(_ip_address, sizeof(_ip_address))) {
+    if (_interface && _interface->get_ip_address(_ip_address, sizeof(_ip_address),interface_name)) {
         return _ip_address;
     }
 
@@ -110,6 +110,15 @@ const char *EMACInterface::get_gateway()
     }
 
     return 0;
+}
+
+const char *EMACInterface::get_interface_name(char *interface_name)
+{
+    if (_interface) {
+        return _interface->get_interface_name(interface_name);
+    }
+
+    return NULL;
 }
 
 NetworkStack *EMACInterface::get_stack()

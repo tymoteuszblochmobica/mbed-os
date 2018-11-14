@@ -56,10 +56,10 @@ nsapi_error_t L3IPInterface::set_dhcp(bool dhcp)
     return NSAPI_ERROR_OK;
 }
 
-nsapi_error_t L3IPInterface::connect()
+nsapi_error_t L3IPInterface::connect(bool is_default)
 {
     if (!_interface) {
-        nsapi_error_t err = _stack.add_l3ip_interface(_l3ip, true, &_interface);
+        nsapi_error_t err = _stack.add_l3ip_interface(_l3ip, is_default, &_interface);
         if (err != NSAPI_ERROR_OK) {
             _interface = NULL;
             return err;
@@ -83,9 +83,9 @@ nsapi_error_t L3IPInterface::disconnect()
     return NSAPI_ERROR_NO_CONNECTION;
 }
 
-const char *L3IPInterface::get_ip_address()
+const char *L3IPInterface::get_ip_address(const char *interface_name)
 {
-    if (_interface && _interface->get_ip_address(_ip_address, sizeof(_ip_address))) {
+    if (_interface && _interface->get_ip_address(_ip_address, sizeof(_ip_address), interface_name)) {
         return _ip_address;
     }
 
@@ -108,6 +108,15 @@ const char *L3IPInterface::get_gateway()
     }
 
     return 0;
+}
+
+const char *L3IPInterface::get_interface_name(char *interface_name)
+{
+    if (_interface) {
+        return _interface->get_interface_name(interface_name);
+    }
+
+    return NULL;
 }
 
 NetworkStack *L3IPInterface::get_stack()

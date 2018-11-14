@@ -35,7 +35,7 @@ public:
     virtual NetworkStack *get_stack();
     virtual const char *get_ip_address();
     virtual void attach(mbed::Callback<void(nsapi_event_t, intptr_t)> status_cb);
-    virtual nsapi_error_t connect();
+    virtual nsapi_error_t connect(bool is_default = false);
     virtual nsapi_error_t disconnect();
     virtual bool is_connected();
     // from CellularBase

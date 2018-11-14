@@ -117,7 +117,7 @@ public: // from NetworkInterface
      *  @param status_cb The callback for status changes.
      */
     virtual void attach(mbed::Callback<void(nsapi_event_t, intptr_t)> status_cb) = 0;
-    virtual nsapi_error_t connect() = 0;
+    virtual nsapi_error_t connect(bool is_default = false) = 0;
     virtual nsapi_error_t disconnect() = 0;
 
     // from CellularBase
