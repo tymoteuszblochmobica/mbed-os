@@ -53,7 +53,7 @@ LWIP::Interface *LWIP::Interface::our_if_from_netif(struct netif *netif)
     return NULL;
 }
 
-static void add_dns_addr_to_dns_list_index(const u8_t addr_type, const u8_t index)
+static void add_dns_addr_to_dns_list_index(const u8_t addr_type, const u8_t index, struct netif *netif)
 {
 #if LWIP_IPV6
     if (addr_type == IPADDR_TYPE_V6) {
@@ -63,14 +63,14 @@ static void add_dns_addr_to_dns_list_index(const u8_t addr_type, const u8_t inde
                                       PP_HTONL(0x48600000UL),
                                       PP_HTONL(0x00000000UL),
                                       PP_HTONL(0x00008888UL));
-        dns_setserver(index, &ipv6_dns_addr);
+        dns_setserver(index, &ipv6_dns_addr, netif);
     }
 #endif
 #if LWIP_IPV4
     if (addr_type == IPADDR_TYPE_V4) {
         /* 8.8.8.8 google */
         ip_addr_t ipv4_dns_addr = IPADDR4_INIT(0x08080808);
-        dns_setserver(index, &ipv4_dns_addr);
+        dns_setserver(index, &ipv4_dns_addr, netif);
     }
 #endif
 }
@@ -92,11 +92,16 @@ static int get_ip_addr_type(const ip_addr_t *ip_addr)
 #endif
 }
 
-void LWIP::add_dns_addr(struct netif *lwip_netif)
+void LWIP::add_dns_addr(struct netif *lwip_netif, const char *interface_name)
 {
+
+    if (!netif_check_default(lwip_netif)) {
+        interface_name = NULL;
+    }
+
     // Check for existing dns address
     for (char numdns = 0; numdns < DNS_MAX_SERVERS; numdns++) {
-        const ip_addr_t *dns_ip_addr = dns_getserver(numdns);
+        const ip_addr_t *dns_ip_addr = dns_getserver(numdns, interface_name);
         if (!ip_addr_isany(dns_ip_addr)) {
             return;
         }
@@ -109,7 +114,7 @@ void LWIP::add_dns_addr(struct netif *lwip_netif)
     // Add preferred ip version dns address to index 0
     if (ip_addr) {
         addr_type = get_ip_addr_type(ip_addr);
-        add_dns_addr_to_dns_list_index(addr_type, 0);
+        add_dns_addr_to_dns_list_index(addr_type, 0, lwip_netif);
     }
 
 #if LWIP_IPV4 && LWIP_IPV6
@@ -121,7 +126,7 @@ void LWIP::add_dns_addr(struct netif *lwip_netif)
         }
         addr_type = get_ip_addr_type(ip_addr);
         // Add the dns address to index 0
-        add_dns_addr_to_dns_list_index(addr_type, 0);
+        add_dns_addr_to_dns_list_index(addr_type, 0, lwip_netif);
     }
 
     if (addr_type == IPADDR_TYPE_V4) {
@@ -136,7 +141,7 @@ void LWIP::add_dns_addr(struct netif *lwip_netif)
 
     if (ip_addr) {
         addr_type = get_ip_addr_type(ip_addr);
-        add_dns_addr_to_dns_list_index(addr_type, 1);
+        add_dns_addr_to_dns_list_index(addr_type, 1, lwip_netif);
     }
 #endif
 }
@@ -224,7 +229,7 @@ void LWIP::Interface::netif_status_irq(struct netif *netif)
         }
 #endif
         if (dns_addr_has_to_be_added && !interface->blocking) {
-            add_dns_addr(&interface->netif);
+            add_dns_addr(&interface->netif, interface->get_interface_name(interface->_interface_name));
         }
 
         if (interface->has_addr_state & HAS_ANY_ADDR) {
@@ -267,9 +272,21 @@ char *LWIP::Interface::get_mac_address(char *buf, nsapi_size_t buflen)
     return buf;
 }
 
-char *LWIP::Interface::get_ip_address(char *buf, nsapi_size_t buflen)
+char *LWIP::Interface::get_interface_name(char *buf)
 {
-    const ip_addr_t *addr = LWIP::get_ip_addr(true, &netif);
+    sprintf(buf, "%c%c%d", netif.name[0], netif.name[1], netif.num);
+    return buf;
+}
+
+char *LWIP::Interface::get_ip_address(char *buf, nsapi_size_t buflen, const char *interface_name)
+{
+    const ip_addr_t *addr;
+
+    if (interface_name == NULL) {
+        addr = LWIP::get_ip_addr(true, &netif);
+    } else {
+        addr = LWIP::get_ip_addr(true, netif_find(interface_name));
+    }
     if (!addr) {
         return NULL;
     }
@@ -628,7 +645,7 @@ nsapi_error_t LWIP::Interface::bringup(bool dhcp, const char *ip, const char *ne
     }
 #endif
 
-    add_dns_addr(&netif);
+    add_dns_addr(&netif, get_interface_name(_interface_name));
 
     return NSAPI_ERROR_OK;
 }
