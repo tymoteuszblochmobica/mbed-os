@@ -136,6 +136,8 @@ enum lwip_internal_netif_client_data_index
 #define NETIF_CHECKSUM_DISABLE_ALL  0x0000
 #endif /* LWIP_CHECKSUM_CTRL_PER_NETIF */
 
+#define INTERFACE_NAME_SIZE    6
+
 struct netif;
 
 /** MAC Filter Actions, these are passed to a netif's igmp_mac_filter or
@@ -379,6 +381,12 @@ void netif_remove(struct netif * netif);
    netif structure, and the digit is in the num field in the same
    structure. */
 struct netif *netif_find(const char *name);
+
+/* Returns a network interface  name in the form
+   "et0", where the first two letters are the "name" field in the
+   netif structure, and the digit is in the num field in the same
+   structure. */
+const char *netif_get_name(struct netif *netif);
 
 void netif_set_default(struct netif *netif);
 

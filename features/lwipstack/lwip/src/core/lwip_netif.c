@@ -105,6 +105,7 @@ struct netif *netif_list;
 struct netif *netif_default;
 
 static u8_t netif_num;
+static char netif_name [INTERFACE_NAME_SIZE];
 
 #if LWIP_NUM_NETIF_CLIENT_DATA > 0
 static u8_t netif_client_id;
@@ -465,6 +466,20 @@ netif_remove(struct netif *netif)
   LWIP_DEBUGF( NETIF_DEBUG, ("netif_remove: removed netif\n") );
 }
 
+/**
+ * @ingroup netif
+ * Get a network interface name
+ *
+ * @param  netif
+ * @return name the name of the netif (like netif->name) plus concatenated number
+ * in ascii representation (e.g. 'en0')
+ */
+const char *
+netif_get_name(struct netif *netif)
+{
+  sprintf(netif_name, "%c%c%d", netif->name[0], netif->name[1], netif->num);
+  return netif_name;
+}
 /**
  * @ingroup netif
  * Find a network interface by searching for its name
