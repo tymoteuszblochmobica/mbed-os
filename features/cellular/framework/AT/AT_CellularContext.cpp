@@ -79,7 +79,7 @@ void AT_CellularContext::set_file_handle(FileHandle *fh)
     _at.set_file_handle(_fh);
 }
 
-nsapi_error_t AT_CellularContext::connect()
+nsapi_error_t AT_CellularContext::connect(nsapi_ip_stack_t ip_stack)
 {
     tr_info("CellularContext connect");
     if (_is_connected) {

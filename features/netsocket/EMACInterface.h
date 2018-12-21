@@ -78,7 +78,7 @@ public:
     /** Start the interface
      *  @return             0 on success, negative on failure
      */
-    virtual nsapi_error_t connect();
+    virtual nsapi_error_t connect(nsapi_ip_stack_t ip_stack = DEFAULT_STACK);
 
     /** Stop the interface
      *  @return             0 on success, negative on failure

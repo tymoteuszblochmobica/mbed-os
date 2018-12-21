@@ -147,7 +147,7 @@ public:
      *  @return  NSAPI_ERROR_IS_CONNECTED if interface is already connected.
      *  @return  negative error code on failure.
      */
-    virtual nsapi_error_t connect() = 0;
+    virtual nsapi_error_t connect(nsapi_ip_stack_t ip_stack = DEFAULT_STACK) = 0;
 
     /** Stop the interface.
      *

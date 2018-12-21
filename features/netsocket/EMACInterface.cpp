@@ -50,7 +50,7 @@ nsapi_error_t EMACInterface::set_dhcp(bool dhcp)
     return NSAPI_ERROR_OK;
 }
 
-nsapi_error_t EMACInterface::connect()
+nsapi_error_t EMACInterface::connect(nsapi_ip_stack_t ip_stack)
 {
     if (!_interface) {
         nsapi_error_t err = _stack.add_ethernet_interface(_emac, true, &_interface);
@@ -65,7 +65,7 @@ nsapi_error_t EMACInterface::connect()
                                _ip_address[0] ? _ip_address : 0,
                                _netmask[0] ? _netmask : 0,
                                _gateway[0] ? _gateway : 0,
-                               DEFAULT_STACK,
+                               ip_stack,
                                _blocking);
 }
 
