@@ -127,13 +127,9 @@ typedef enum nsapi_security {
     NSAPI_SECURITY_UNKNOWN      = 0xFF,     /*!< unknown/unsupported security in scan results */
 } nsapi_security_t;
 
-/** Size of shortened network interface name
- */
-#define NSAPI_INTERFACE_NAME_MAX_SIZE 6
-
 /** Maximum size of network interface name
  */
-#define NSAPI_INTERFACE_NAME_MAX_SIZE 4
+#define NSAPI_INTERFACE_NAME_MAX_SIZE 6
 
 /** Maximum size of IP address representation
  */
