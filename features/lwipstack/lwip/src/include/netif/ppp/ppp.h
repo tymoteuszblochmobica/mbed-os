@@ -47,6 +47,10 @@
 #include "lwip/ip6_addr.h"
 #endif /* PPP_IPV6_SUPPORT */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Disable non-working or rarely used PPP feature, so rarely that we don't want to bloat ppp_opts.h with them */
 #ifndef PPP_OPTIONS
 #define PPP_OPTIONS         0
@@ -336,10 +340,6 @@ struct ppp_pcb_s {
   unsigned int ipv6cp_is_up            :1; /* have called ip6cp_up() */
   unsigned int if6_up                  :1; /* True when the IPv6 interface is up. */
 #endif /* PPP_IPV6_SUPPORT */
-#if PPP_IPV4_SUPPORT && PPP_IPV6_SUPPORT
-  unsigned int ipcp_disabled           :1; /* disable ipcp */
-  unsigned int ipv6cp_disabled         :1; /* disable ipv6cp */
-#endif
   unsigned int lcp_echo_timer_running  :1; /* set if a timer is running */
 #if VJ_SUPPORT
   unsigned int vj_enabled              :1; /* Flag indicating VJ compression enabled. */
@@ -688,6 +688,10 @@ err_t ppp_ioctl(ppp_pcb *pcb, u8_t cmd, void *arg);
 /* Set an lwIP-style link-callback for the selected PPP device */
 #define ppp_set_netif_linkcallback(ppp, link_cb)           \
         netif_set_link_callback(ppp->netif, link_cb);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PPP_H */
 
