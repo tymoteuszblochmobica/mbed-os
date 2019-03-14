@@ -2400,7 +2400,8 @@
  * initialization.
  */
 #if !defined LWIP_IPV6_SCOPES || defined __DOXYGEN__
-#define LWIP_IPV6_SCOPES                (LWIP_IPV6 && !LWIP_SINGLE_NETIF)
+//#define LWIP_IPV6_SCOPES                (LWIP_IPV6 && !LWIP_SINGLE_NETIF)
+#define LWIP_IPV6_SCOPES                0
 #endif
 
 /**
