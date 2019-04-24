@@ -16,6 +16,7 @@
 #include "nsapi.h"
 #include "mbed_interface.h"
 #include "mbed_assert.h"
+#include "mbed_wait_api.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -292,7 +293,20 @@ nsapi_error_t LWIP::socket_open(nsapi_socket_t *handle, nsapi_protocol_t proto)
 nsapi_error_t LWIP::socket_close(nsapi_socket_t handle)
 {
     struct mbed_lwip_socket *s = (struct mbed_lwip_socket *)handle;
-
+#if LWIP_TCP
+    u8_t check_limit = TCP_CLOSE_TIMEOUT;
+    /* Check if TCP FSM is in ESTABLISHED state.
+     * Then give extra time for connection close handshaking  until TIME_WAIT state.
+     * The purpose is to prevent eth/wifi driver stop and  FIN ACK corrupt.
+     * This may happend if network interface disconnect follows immediately after socket_close.*/
+    if (NETCONNTYPE_GROUP(s->conn->type) == NETCONN_TCP && s->conn->pcb.tcp->state == ESTABLISHED) {
+        netconn_shutdown(s->conn, false, true);
+        while (s->conn->pcb.tcp && s->conn->pcb.tcp->state < TIME_WAIT && check_limit) {
+            wait_ms(5);
+            check_limit--;
+        }
+    }
+#endif
     netbuf_delete(s->buf);
     err_t err = netconn_delete(s->conn);
     arena_dealloc(s);
